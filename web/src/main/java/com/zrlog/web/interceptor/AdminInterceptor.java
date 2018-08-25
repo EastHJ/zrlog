@@ -13,7 +13,7 @@ import com.zrlog.common.vo.AdminTokenVO;
 import com.zrlog.model.User;
 import com.zrlog.service.AdminTokenService;
 import com.zrlog.service.CacheService;
-import com.zrlog.util.I18NUtil;
+import com.zrlog.util.I18nUtil;
 import com.zrlog.web.annotation.RefreshCache;
 import com.zrlog.web.controller.admin.page.AdminPageController;
 import com.zrlog.web.handler.GlobalResourceHandler;
@@ -99,18 +99,15 @@ class AdminInterceptor implements Interceptor {
         if (ai.getActionKey().startsWith("/api")) {
             ExceptionResponse exceptionResponse = new ExceptionResponse();
             exceptionResponse.setError(1);
-            exceptionResponse.setMessage(I18NUtil.getStringFromRes("admin.session.timeout"));
+            exceptionResponse.setMessage(I18nUtil.getStringFromRes("admin.session.timeout"));
             ai.getController().renderJson(exceptionResponse);
         } else {
             //在重定向到登陆页面时，同时携带了当前的请求路径，方便登陆成功后的跳转
             HttpServletRequest request = ai.getController().getRequest();
             try {
                 String url = request.getRequestURL().toString();
-                if ("https".equals(WebTools.getRealScheme(request))) {
-                    url = "https://" + request.getHeader("Host") + request.getRequestURI();
-                }
                 URL tUrl = new URL(url);
-                ai.getController().redirect(tUrl.getProtocol() + "://" + tUrl.getHost() +
+                ai.getController().redirect("//" + tUrl.getHost() +
                         (tUrl.getPort() != -1 ? ":" + tUrl.getPort() : "") + request.getContextPath()
                         + "/admin/login?redirectFrom="
                         + url + URLEncoder.encode(request.getQueryString() != null ? "?" + request.getQueryString() : "", "UTF-8"));

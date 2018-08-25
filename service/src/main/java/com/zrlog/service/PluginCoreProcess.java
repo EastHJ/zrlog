@@ -69,7 +69,7 @@ public class PluginCoreProcess {
                                 //待插件启动
                                 Thread.sleep(2000);
                             } catch (InterruptedException e) {
-                                //e.printStackTrace();
+                                //ignore
                             }
                             pluginSocketThread.start();
                             while (!pluginSocketThread.isStop()) {

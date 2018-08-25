@@ -35,25 +35,7 @@ public class WebTools {
     }
 
     public static String getHomeUrl(HttpServletRequest request) {
-        return WebTools.getRealScheme(request) + "://" + request.getHeader("host") + request.getContextPath() + "/";
-    }
-
-    public static String getRealScheme(HttpServletRequest request) {
-        if (request != null) {
-            String scheme = request.getHeader("X-Forwarded-Proto");
-            if (scheme == null) {
-                scheme = request.getHeader("X-Forwarded-Protocol");
-            }
-            if (scheme != null) {
-                //检查是否合法
-                if ("http".equals(scheme) || "https".equals(scheme)) {
-                    return scheme;
-                }
-            } else {
-                return request.getScheme();
-            }
-        }
-        return "http";
+        return "//" + request.getHeader("host") + request.getContextPath() + "/";
     }
 
     public static String htmlEncode(String source) {
